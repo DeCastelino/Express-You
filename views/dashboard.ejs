@@ -1,0 +1,102 @@
+<!--
+=========================================================
+* * Black Dashboard - v1.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/black-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <title>
+    Dashboard | Express You
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <!-- Nucleo Icons -->
+  <link href="/css/nucleo-icons.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary">
+        <div class="container">
+          <a class="navbar-brand" href="/dashboard">Express You</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/music">Music</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/podcast">Podcast</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/userProfile">View rofile</a>
+                  <a class="dropdown-item" href="/changePassword">Change Password</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- Navbar End -->
+      <div class="content py-5">
+        <div class="row content-center">
+          <div class="col-md-6">
+            <form action="/addPost" method="POST">
+              <textarea class="form-control" name="title" id="" cols="30" rows="1" placeholder="Enter Title here"></textarea>
+            <textarea class="form-control" name="body" id="" cols="30" rows="1" placeholder="Express yourself here..."></textarea>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="submit" class="btn btn-primary btn-md mt-3 mb-3">Express</button>
+            </div>
+            </form>
+            <% if (posts.Count > 0) { %>
+              <% posts.Items.forEach(post => { %>
+                <div class="card">
+                  <div class="card-header">
+                    <!--Card header goes here-->
+                    <h4 class="card-title"><strong><%= post.title %></strong></h4>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted"><%= post.timestamp %></h6>
+                    <p><%= post.body %></p>
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %> 
+              <h4>No Posts to display</h4>
+            <% } %> 
+          </div>
+        </div>
+      </div>
+</body>
+
+</html>
