@@ -1,0 +1,157 @@
+<!--
+=========================================================
+* * Black Dashboard - v1.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/black-dashboard
+* Copyright 2019 Creative Tim (https://www.creative-tim.com)
+
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <title>
+    Chat | Express You
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <!-- Nucleo Icons -->
+  <link href="/css/nucleo-icons.css" rel="stylesheet" />
+  <!-- CSS Files -->
+  <link href="/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+</head>
+
+<body onload="initWebSocket()">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-primary">
+        <div class="container">
+          <a class="navbar-brand" href="/dashboard">Express You</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/dashboard">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/music">Music</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/podcast">Podcast</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/chat">Chat</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="/userProfile">View rofile</a>
+                  <a class="dropdown-item" href="/changePassword">Change Password</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- Navbar End -->
+      <div class="content py-5">
+        <div class="row content-center">
+          <div class="col-md-6">
+                <div class="card">
+                  <div class="card-header">
+                    <!--Card header goes here-->
+                    <!-- Can enter user ID later on -->
+                  </div>
+                  <div id="messageList" class="card-body">
+                    <p>No messages to display</p>
+                  </div>
+                </div>
+              <!--<h4>No Messages to display</h4>-->
+              <h3><span id="text"></span></h3>
+                <div>
+                    <input type="message" class="form-control" id="message" name="message" placeholder="Enter message here" required>
+                <div>
+                    <button onclick="javascript:sendMessage()" type="login" class="btn btn-primary btn-md mt-3 mb-3 ">Send</button>
+                </div>
+          </div>
+        </div>
+      </div>
+      <!-- Scripts -->
+      <script type="text/javascript">
+        let ws;
+        let hasMessages = false;
+        let connected = false;
+        let addressInput = document.querySelector('#wsUrl');
+        let statusElement = document.querySelector('#status');
+        let messageInput = document.querySelector('#message');
+        let messageListElement = document.querySelector('#messageList');
+    
+        function initWebSocket() {
+            let wsUrl = 'wss://dtab6ica7g.execute-api.us-east-1.amazonaws.com/test';
+            if (wsUrl.trim()) {
+                ws = new WebSocket(wsUrl);
+                initWebSocketsEvents();
+            }
+        }
+    
+        function initWebSocketsEvents() {
+            ws.onopen = function () {
+                connected = true;
+            };
+    
+            ws.onmessage = function (evt) {
+                let message = evt.data;
+                addMessageToList(message);
+            };
+    
+            ws.onclose = function () {
+                connected = false;
+            };
+    
+            ws.onerror = function (error) {
+                console.error(error);
+            };
+        }
+    
+        function sendMessage() {
+            if (connected) {
+                let message = messageInput.value;
+                if (message.trim()) {
+                    ws.send(JSON.stringify({action: 'onmessage', message}));
+                }
+            }
+        }
+    
+        function addMessageToList(message) {
+            let result = '';
+            if (hasMessages) {
+                result = `${messageListElement.innerHTML} <br />`;
+            }
+            hasMessages = true;
+            messageListElement.innerHTML = `${result}${message}`;
+        }
+    </script>
+    <!-- End Scripts -->
+</body>
+
+</html>
